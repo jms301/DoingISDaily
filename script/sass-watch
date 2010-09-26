@@ -1,0 +1,3 @@
+#!/usr/bin/env ruby
+
+exec "sass --watch sass-stylesheets/:public/stylesheets/"

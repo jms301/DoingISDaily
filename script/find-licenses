@@ -1,0 +1,56 @@
+#!/usr/bin/env ruby
+
+license = Array.new
+ignore = Array.new
+config = { :rb=>"#", :haml=>"/", :erb=>"<%#", :sass=>"//", :feature=>"#",
+           :txt=>""}
+
+File.open("./.license-ignore").each { |line|
+  ignore << line.strip + '/'
+}
+
+File.open("./LICENSE.txt").each { |line|
+  license << line
+}
+
+process = Array.new
+
+`ls -d */`.split.each do |item| 
+  process << item.strip unless ignore.include? item.strip
+end
+
+process_files = Array.new
+process.each do |item| 
+  process_files.concat `find #{item} -type f`.split 
+end
+
+process_files.each do |file| 
+  comment = config[file.split('.')[-1].to_sym]
+  if comment == nil
+    puts file + " failed as comment is not configured" 
+    next
+  end
+
+  start = nil  # the point in the file where the license text starts
+  
+  File.open(file).each_with_index do |line, i| 
+    # flow control
+    if i > license.length - 1
+      # Success! we've gotten to the end of the license text file without 
+      # a missmatch
+      break
+    elsif start == nil and line.strip.empty?
+      next
+    elsif start == nil and !line.strip.empty? 
+      start = i #Hopefully we've just hit the start of the license text
+    end
+
+    # Test that the license text and file text match
+    if start != nil 
+      if line != comment + " " + license[i-start] 
+        puts file 
+        break
+      end
+    end 
+  end 
+end

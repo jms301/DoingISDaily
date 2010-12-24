@@ -1,0 +1,23 @@
+#!/usr/bin/env ruby
+
+config = { :rb=>"#", :haml=>"/", :erb=>"<%#", :sass=>"//", :feature=>"#",
+           :txt=>""}
+
+unless File::exists?("./LICENSE.txt")
+  puts "There is no license file in the run directory"  
+  exit(1)
+end
+
+while $stdin.gets
+  file = $_.strip
+  unless File::exists?(file)
+    puts "File does not exist: " + file
+    exit(1)
+  end
+  comment = config[file.split('.')[-1].to_sym]
+  system "cat ./LICENSE.txt | sed 'sw^w#{comment} w' >> ./tmp/lic"
+  system "cat #{file} >> ./tmp/lic"
+  system "mv ./tmp/lic #{file}"
+
+end
+

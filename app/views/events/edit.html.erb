@@ -17,20 +17,15 @@
 <%# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 <%# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 <%# THE SOFTWARE.
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<h1>Editing event</h1>
 
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-<head>
-  <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
-  <title>Users: <%= controller.action_name %></title>
-  <%= stylesheet_link_tag 'scaffold' %>
-</head>
-<body>
+<% form_for(@event) do |f| %>
+  <%= f.error_messages %>
 
-<p style="color: green"><%= flash[:notice] %></p>
+  <p>
+    <%= f.submit 'Update' %>
+  </p>
+<% end %>
 
-<%= yield %>
-
-</body>
-</html>
+<%= link_to 'Show', @event %> |
+<%= link_to 'Back', events_path %>

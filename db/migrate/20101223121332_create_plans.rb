@@ -17,6 +17,20 @@
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
-# Methods added to this helper will be available to all templates in the application.
-module ApplicationHelper
+class CreatePlans < ActiveRecord::Migration
+  def self.up
+    create_table :plans do |t|
+      t.string :description
+      t.integer :parent_id
+      t.integer :user_id
+      t.datetime :deadline
+      t.text :note
+ 
+      t.timestamps
+    end
+  end
+
+  def self.down
+    drop_table :plans
+  end
 end

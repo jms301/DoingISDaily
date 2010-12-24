@@ -1,0 +1,84 @@
+/ Copyright (c) 2010 - James Southern
+/ 
+/ Permission is hereby granted, free of charge, to any person obtaining a copy
+/ of this software and associated documentation files (the "Software"), to deal
+/ in the Software without restriction, including without limitation the rights
+/ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+/ copies of the Software, and to permit persons to whom the Software is
+/ furnished to do so, subject to the following conditions:
+/ 
+/ The above copyright notice and this permission notice shall be included in
+/ all copies or substantial portions of the Software.
+/ 
+/ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+/ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+/ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+/ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+/ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+/ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+/ THE SOFTWARE.
+%h1 
+  Future Plans 
+ 
+-form_for @new_plan do |f|
+  = render :partial=>'plans/inline_form', :object=>f
+%br/
+%br/
+
+%table
+  %tr
+    %th
+      Description
+    %th
+      Deadline
+    -@plans.each do |plan| 
+      %tr
+        %td
+          = plan.description
+        %td
+          = plan.deadline.strftime("%b %d") unless plan.deadline.blank?
+        %td
+          = link_to 'Delete Plan', plan, :confirm => 'You sure?', 
+                  :method => :delete 
+  
+%h1
+  Todays Events (
+  = Time.now.to_date
+  )
+
+%br/
+
+-form_for @new_event do |f|
+  = render :partial=>'events/inline_form', :object=>f
+
+%br/
+%br/
+
+%table
+  %tr
+    %th
+      Description
+    %th
+      Started At 
+
+  -if !@current_event.blank?    
+    %tr
+      %td{:style=>'background:red;'}
+        = @current_event.description
+      %td
+        = @current_event.start_time
+      %td
+        = link_to 'Delete Event', @current_event, :confirm => 'Are you sure?', 
+                  :method => :delete 
+
+  -@events.each do |event| 
+    %tr
+      %td
+        = event.description
+      %td
+        = event.start_time
+      %td
+        = link_to 'Delete Event', event, :confirm => 'Are you sure?', 
+                  :method => :delete 
+
+%br

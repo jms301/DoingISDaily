@@ -17,6 +17,16 @@
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
-# Methods added to this helper will be available to all templates in the application.
-module ApplicationHelper
+class Event < ActiveRecord::Base
+  belongs_to :user
+  validates_presence_of :description
+
+  def self.find_todays_events
+    events = Event.find(:all,
+                         :conditions =>['Date(start_time) = Date(?)', Time.now],
+                         :order=>'start_time DESC')
+
+
+    return events.shift, events
+  end
 end

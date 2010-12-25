@@ -27,8 +27,26 @@ class PlansController < ApplicationController
     @current_event, @events = Event.find_todays_events()
     @plans = Plan.find(:all)
     @new_event = Event.new()
-    unless params[:plan]['deadline(3i)'].blank? 
-      params[:plan]['deadline(1i)'] = Time.now.year.to_s
+   
+
+    unless params[:plan]['deadline(3i)'].blank? and
+           params[:plan]['deadline(2i)'].blank? 
+
+      if params[:plan]['deadline(2i)'].blank? 
+        params[:plan]['deadline(2i)'] = Time.now.month 
+      end
+
+      if params[:plan]['deadline(3i)'].blank? 
+        params[:plan]['deadline(3i)'] = '1'
+      end
+
+      if params[:plan]['deadline(2i)'].to_i < Time.now.month or 
+           (params[:plan]['deadline(2i)'].to_i == Time.now.month and 
+            params[:plan]['deadline(3i)'].to_i < Time.now.day)
+        params[:plan]['deadline(1i)'] = Time.now.year.next.to_s
+      else
+        params[:plan]['deadline(1i)'] = Time.now.year.to_s
+      end
     end
 
     @new_plan = Plan.new(params[:plan])

@@ -47,9 +47,8 @@ class EventsController < ApplicationController
 
     @title = 'Todays Events ('+ Time.now.to_date.to_s + ')'
 
-
     @current_event, @events = Event.find_todays_events
-    @plans = Plan.find(:all)
+    @plans = Plan.find(:all, :order=>"deadline ASC")
     @new_event = Event.new
     @new_plan = Plan.new
 
@@ -69,8 +68,8 @@ class EventsController < ApplicationController
 
     @title = 'Todays Events ('+ Time.now.to_date.to_s + ')'
     @current_event, @events = Event.find_todays_events()
-    @plans = Plan.find(:all)
-    unless params[:events]['end_time(3i)'].blank?
+    @plans = Plan.find(:all, :order=>"deadline ASC")
+    unless params[:event]['end_time(3i)'].blank?
       params[:event]['end_time(1i)'] = Time.now.year.to_s
       params[:event]['end_time(2i)'] = Time.now.month.to_s
     end

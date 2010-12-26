@@ -41,6 +41,15 @@
 
 
 class EventsController < ApplicationController
+
+  # POST
+  def finish
+    @event = Event.find(params[:id])
+    @event.end_time = (params[:time] || Time.now)
+    @event.save 
+    redirect_to :root
+  end 
+
   # GET /events
   # GET /events.xml
   def index

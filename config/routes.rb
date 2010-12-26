@@ -1,7 +1,7 @@
 ActionController::Routing::Routes.draw do |map|
   map.root :controller=>:events
   map.resources :users
-  map.resources :events, :except=>[:new, :show] 
+  map.resources :events, :except=>[:new, :show], :member=>[:finish]
   map.resources :plans, :except=>[:new, :show] 
 
   # The priority is based upon order of creation: first created -> highest priority.

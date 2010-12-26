@@ -70,6 +70,7 @@
       %td
         = @current_event.start_time.strftime("%H:%M %b %d")
       %td
+        = button_to "Finish", finish_event_path(@current_event), :method=>:post
       %td
         = link_to 'X', @current_event, :confirm => 'Are you sure?', 
                   :method => :delete 
@@ -79,8 +80,9 @@
       %td
         = event.description
       %td
-        = event.start_time.strftime("%H:%M %b %d")
+        = event.start_time.strftime("%H:%M %b %d") if !event.start_time.blank?
       %td
+        = event.end_time.strftime("%H:%M %b %d") if !event.end_time.blank?
       %td
         = link_to 'X', event, :confirm => 'Are you sure?', 
                   :method => :delete 

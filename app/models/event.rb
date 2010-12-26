@@ -26,7 +26,10 @@ class Event < ActiveRecord::Base
                          :conditions =>['Date(start_time) = Date(?)', Time.now],
                          :order=>'start_time DESC')
 
-
-    return events.shift, events
+    if !events[0].blank? and events[0].end_time.blank? 
+      return events.shift, events
+    else
+      return nil, events
+    end
   end
 end

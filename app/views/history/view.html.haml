@@ -15,7 +15,8 @@
   -events.each do |event| 
     - col = "background:red;" if event.end_time == nil 
     %div{:style=>"#{col}"}
-      =event.description
+      %b
+        =event.description
       =event.start_time.strftime("%H:%M") if event.start_time != nil
       =event.end_time.strftime("%H:%M") if event.end_time != nil
       =link_to 'edit', edit_event_path(event)

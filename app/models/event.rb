@@ -19,8 +19,12 @@
 # THE SOFTWARE.
 class Event < ActiveRecord::Base
   belongs_to :user
-  validates_presence_of :description
-
+  validates_presence_of :description, :start_time
+ 
+  def length
+    self.end_time != nil ?  self.end_time - self.start_time : 0 
+  end
+ 
   def self.find_todays_events
     events = Event.find(:all,
                          :conditions =>['Date(start_time) = Date(?)', Time.now],

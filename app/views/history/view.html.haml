@@ -1,0 +1,22 @@
+%h1 
+  Your events history
+
+-@days.each do |day, events| 
+  %h2 
+    =day[0].inspect
+  Useful Time: 
+  =(day[1].to_f/(60*60)).to_s
+  %br
+  div by 16 (8 hrs slept)
+  =((day[1].to_f/(60*60))/16).to_s  
+  %br
+  %br
+  -events.reverse!
+  -events.each do |event| 
+    - col = "background:red;" if event.end_time == nil 
+    %div{:style=>"#{col}"}
+      =event.description
+      =event.start_time.strftime("%H:%M") if event.start_time != nil
+      =event.end_time.strftime("%H:%M") if event.end_time != nil
+      =link_to 'edit', edit_event_path(event)
+

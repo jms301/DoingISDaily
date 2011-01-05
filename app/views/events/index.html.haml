@@ -28,13 +28,17 @@
 %table
   %tr
     %th
+      Start 
+    %th
       Description
     %th
       Deadline
     -@plans.each do |plan| 
       %tr
         %td
-          = plan.description
+          = link_to 'Start',  plan_to_event_path(plan), :method=>:post 
+        %td
+          = link_to plan.description,  plan_to_event_path(plan), :method=>:post 
         %td
           = plan.deadline.strftime("%b %d") unless plan.deadline.blank?
         %td
@@ -68,7 +72,7 @@
       %td{:style=>'background:red;'}
         = @current_event.description
       %td
-        = @current_event.start_time.strftime("%H:%M %b %d")
+        = @current_event.start_time.strftime("%H:%M")
       %td
         = button_to "Finish", finish_event_path(@current_event), :method=>:post
       %td
@@ -80,9 +84,15 @@
       %td
         = event.description
       %td
-        = event.start_time.strftime("%H:%M %b %d") if !event.start_time.blank?
+        = event.start_time.strftime("%H:%M") if !event.start_time.blank?
       %td
-        = event.end_time.strftime("%H:%M %b %d") if !event.end_time.blank?
+        -if !event.end_time.blank?
+          = event.end_time.strftime("%H:%M") 
+        -else
+          - form_for event do |f|
+            = f.datetime_select :end_time, :discard_year=>true,
+              :discard_month=>true, :default=>event.start_time
+            = f.submit "update"
       %td
         = link_to 'X', event, :confirm => 'Are you sure?', 
                   :method => :delete 

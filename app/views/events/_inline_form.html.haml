@@ -22,9 +22,13 @@ Description:
 = inline_form.text_field :description
 Started at: 
 = inline_form.datetime_select :start_time, 
-   :discard_year=>true, :discard_month=>true, :discard_day=>true
+  :discard_year=>true, :discard_month=>true, :discard_day=>true
 Ended at: 
 = inline_form.datetime_select :end_time, :include_blank=>true,
-   :discard_year=>true, :discard_month=>true, :discard_day=>true
+  :discard_year=>true, :discard_month=>true, :discard_day=>true 
+= hidden_field "event", "end_time(1i)", :value=>Time.now.year
+= hidden_field "event", "end_time(2i)", :value=>Time.now.month
+= hidden_field "event", "end_time(3i)", :value=>Time.now.day
+
 = inline_form.hidden_field :user_id, :value=>'1'
 = inline_form.submit "Create Event"

@@ -59,6 +59,7 @@ class EventsController < ApplicationController
     @current_event, @events = Event.find_todays_events
     @plans = Plan.find(:all, :order=>"deadline ASC")
     @new_event = Event.new
+    @new_event.start_time = Time.now
     @new_plan = Plan.new
 
     respond_to do |format|
@@ -71,6 +72,15 @@ class EventsController < ApplicationController
     @event = Event.find(params[:id])
   end
 
+  def plan_to
+    plan = Plan.find(params[:id])
+    
+    @new_event = Event.new({:description=>plan.description, 
+                            :start_time=>Time.now, :user_id=>1})
+    @new_event.save
+    redirect_to :root 
+  end
+
   # POST /events
   # POST /events.xml
   def create
@@ -78,9 +88,20 @@ class EventsController < ApplicationController
     @title = 'Todays Events ('+ Time.now.to_date.to_s + ')'
     @current_event, @events = Event.find_todays_events()
     @plans = Plan.find(:all, :order=>"deadline ASC")
-    unless params[:event]['end_time(3i)'].blank?
-      params[:event]['end_time(1i)'] = Time.now.year.to_s
-      params[:event]['end_time(2i)'] = Time.now.month.to_s
+
+    if params[:event]['end_time(4i)'].blank? and 
+       params[:event]['end_time(5i)'].blank?
+  
+      params[:event].delete('end_time(1i)')   
+      params[:event].delete('end_time(2i)')   
+      params[:event].delete('end_time(3i)')   
+      params[:event].delete('end_time(4i)')   
+      params[:event].delete('end_time(5i)')   
+ 
+    elsif params[:event]['end_time(4i)'].blank?
+      params[:event]['end_time(4i)'] =  params[:event]['start_time(4i)']
+    elsif params[:event]['end_time(5i)'].blank?
+      params[:event]['end_time(5i)'] =  params[:event]['start_time(5i)']
     end
 
     @new_event = Event.new(params[:event])
@@ -108,7 +129,7 @@ class EventsController < ApplicationController
     respond_to do |format|
       if @event.update_attributes(params[:event])
         flash[:notice] = 'Event was successfully updated.'
-        format.html { redirect_to(@event) }
+        format.html { redirect_to(:root) }
         format.xml  { head :ok }
       else
         format.html { render(:event => "edit") }

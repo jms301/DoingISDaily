@@ -22,10 +22,10 @@ class PlansController < ApplicationController
   # POST /events
   # POST /events.xml
   def create
-
+    @user = @current_user
     @title = 'Home ('+ Time.now.to_date.to_s + ')'
-    @current_event, @events = Event.find_todays_events()
-    @plans = Plan.find(:all)
+    @current_event, @events = Event.find_todays_events(@user)
+    @plans = @user.plans
     @new_event = Event.new()
    
 
@@ -50,6 +50,7 @@ class PlansController < ApplicationController
     end
 
     @new_plan = Plan.new(params[:plan])
+    @new_plan.user = @user
 
     respond_to do |format|
       if @new_plan.save
@@ -68,7 +69,7 @@ class PlansController < ApplicationController
   # DELETE /events/1
   # DELETE /events/1.xml
   def destroy
-    @plan = Plan.find(params[:id])
+    @plan = @current_user.plans.find(params[:id])
     @plan.destroy
 
     respond_to do |format|

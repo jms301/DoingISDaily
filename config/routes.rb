@@ -4,7 +4,10 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :events, :except=>[:new, :show], :member=>[:finish, :plan_to]
   map.resources :plans, :except=>[:new, :show] 
   map.connect 'history', :controller=>'history', :action=>'view'
+  map.resource  :user_session, :member=>{:reset=>:put, :modal_login=>:post}
+  map.resources :users, :except => [:destroy, :index]
 
+ 
   # The priority is based upon order of creation: first created -> highest priority.
 
   # Sample of regular route:

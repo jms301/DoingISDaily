@@ -20,4 +20,8 @@
 class Plan < ActiveRecord::Base
   belongs_to :user
   validates_presence_of :description
+
+  #whitlist for mass asigns excluded: :user_id, parent_id
+  attr_accessible :description,  :note, :deadline
+
 end

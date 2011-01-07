@@ -1,0 +1,58 @@
+-unless !@current_user.blank? or (request.parameters[:controller] == 'users' and (request.parameters[:action] == 'new' or request.parameters[:action] == 'edit' or request.parameters[:action] == 'create'or request.parameters[:action] == 'update'))
+  #login-required-modal{:style=>"z-index:800;position:absolute;top:0px;left:0px;width:100%;height:3000px;display:none;", :onClick=>'$("login-required").hide();$("login-required-modal").hide();'}
+  #login-required{:style=>"z-index:900;width:60%;height:80%;display:none;position:fixed;padding:1.5em;padding-top:2em;"}
+    #close{:style=>"position:absolute;right:1em;top:0.5em;"}
+      %a{:href=>'#', :onClick=>'$("login-required").hide();$("login-required-modal").hide();'}
+        close X
+    #register{:style=>"width:40%;text-align:left;float:left;"}
+      %div{:style=>"width:100%; text-align:center;"} 
+        %b
+          Quick Registration:
+      %br/
+      %br/
+      - form_for(User.new) do |f| 
+        = hidden_field_tag :modal_redirect_to_create, ''
+        Choose a username: 
+        %br/
+        = f.text_field :login, :size=>13
+        %br/
+        %br/
+        Pick a password: 
+        %br/
+        = f.password_field :password, :size=>13
+        %br/
+        %br/
+        Confirm password: 
+        %br/
+        = f.password_field :password_confirmation, :size=>13
+        %br/
+        %br/
+        Prove you're human: 
+        %br/
+        #recaptcha
+        %br/
+        = f.submit "Create Account" 
+        %br/
+        %br/
+        %b
+          &nbsp;And thats it!
+  
+    #login{:style=>"width:40%;text-align:left;float:right;"}
+      %div{:style=>"width:100%; text-align:center;"} 
+        %b
+          Login:
+      %br/ 
+      %br/ 
+      -remote_form_for UserSession.new, :url => user_session_path do |f|  
+        User:
+        %br/
+        =f.text_field :login, :size => 13, :id=>'modal_login'
+        %br/
+        %br/
+        Pass:
+        %br/
+        =f.password_field :password, :size => 13  
+        = hidden_field_tag :modal_redirect_to_login, ''
+        %br/
+        %br/
+        = submit_tag "login" 

@@ -18,21 +18,14 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 class UsersController < ApplicationController
-  # GET /users
-  # GET /users.xml
-  def index
-    @users = User.all
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.xml  { render :xml => @users }
-    end
-  end
+  before_filter :current_user
+  before_filter :require_user, :only=>[:show, :edit, :update]
+  before_filter :require_no_user, :only=>[:new, :create]
 
   # GET /users/1
   # GET /users/1.xml
   def show
-    @user = User.find(params[:id])
+    @user = @current_user
 
     respond_to do |format|
       format.html # show.html.erb
@@ -92,13 +85,13 @@ class UsersController < ApplicationController
 
   # DELETE /users/1
   # DELETE /users/1.xml
-  def destroy
-    @user = User.find(params[:id])
-    @user.destroy
-
-    respond_to do |format|
-      format.html { redirect_to(users_url) }
-      format.xml  { head :ok }
-    end
-  end
+  #def destroy
+    #@user = User.find(params[:id])
+    #@user.destroy
+#
+    #respond_to do |format|
+      #format.html { redirect_to(users_url) }
+      #format.xml  { head :ok }
+    #end
+  #end
 end

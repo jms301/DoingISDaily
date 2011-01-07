@@ -42,9 +42,12 @@
 
 class EventsController < ApplicationController
 
+  before_filter :current_user, :require_user
+  
   # POST
   def finish
-    @event = Event.find(params[:id])
+    @user = @current_user
+    @event = @user.events.find(params[:id])
     @event.end_time = (params[:time] || Time.now)
     @event.save 
     redirect_to :root
@@ -55,9 +58,9 @@ class EventsController < ApplicationController
   def index
 
     @title = 'Todays Events ('+ Time.now.to_date.to_s + ')'
-
-    @current_event, @events = Event.find_todays_events
-    @plans = Plan.find(:all, :order=>"deadline ASC")
+    @user = @current_user
+    @current_event, @events = Event.find_todays_events @user
+    @plans = @user.plans.find(:all, :order=>"deadline ASC")
     @new_event = Event.new
     @new_event.start_time = Time.now
     @new_plan = Plan.new
@@ -69,14 +72,14 @@ class EventsController < ApplicationController
   end
 
   def edit
-    @event = Event.find(params[:id])
+    @event = @current_user.events.find(params[:id])
   end
 
   def plan_to
-    plan = Plan.find(params[:id])
+    plan = @current_user.plans.find(params[:id])
     
     @new_event = Event.new({:description=>plan.description, 
-                            :start_time=>Time.now, :user_id=>1})
+                            :start_time=>Time.now, :user_id=>@current_user.id})
     @new_event.save
     redirect_to :root 
   end
@@ -84,10 +87,10 @@ class EventsController < ApplicationController
   # POST /events
   # POST /events.xml
   def create
-
+    @user = @current_user
     @title = 'Todays Events ('+ Time.now.to_date.to_s + ')'
-    @current_event, @events = Event.find_todays_events()
-    @plans = Plan.find(:all, :order=>"deadline ASC")
+    @current_event, @events = Event.find_todays_events( @user )
+    @plans = @user.plans.find(:all, :order=>"deadline ASC")
 
     if params[:event]['end_time(4i)'].blank? and 
        params[:event]['end_time(5i)'].blank?
@@ -105,6 +108,7 @@ class EventsController < ApplicationController
     end
 
     @new_event = Event.new(params[:event])
+    @new_event.user = @user
     @new_plan = Plan.new()
 
     respond_to do |format|
@@ -124,7 +128,8 @@ class EventsController < ApplicationController
   # PUT /events/1
   # PUT /events/1.xml
   def update
-    @event = Event.find(params[:id])
+   
+    @event = @current_user.events.find(params[:id])
 
     respond_to do |format|
       if @event.update_attributes(params[:event])
@@ -141,7 +146,7 @@ class EventsController < ApplicationController
   # DELETE /events/1
   # DELETE /events/1.xml
   def destroy
-    @event = Event.find(params[:id])
+    @event = @current_user.events.find(params[:id])
     @event.destroy
 
     respond_to do |format|

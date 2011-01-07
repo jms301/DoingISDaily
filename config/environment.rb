@@ -14,9 +14,10 @@ Rails::Initializer.run do |config|
   # Add additional load paths for your own custom dirs
   # config.load_paths += %W( #{RAILS_ROOT}/extras )
 
-  config.gem "rspec", :lib => false, :version => ">= 1.2.0"
-  config.gem "rspec-rails", :lib => false, :version => ">= 1.2.0"
+  config.gem 'rspec', :lib => false, :version => '>= 1.2.0'
+  config.gem 'rspec-rails', :lib => false, :version => '>= 1.2.0'
   config.gem 'haml'
+  config.gem 'authlogic'
 
   # Specify gems that this application depends on and have them installed with rake gems:install
   # config.gem "bj"

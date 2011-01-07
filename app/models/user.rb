@@ -1,5 +1,7 @@
 class User < ActiveRecord::Base
-
+  
+  has_many :events
+  has_many :plans
 
   acts_as_authentic do |c|
     c.login_field = :username

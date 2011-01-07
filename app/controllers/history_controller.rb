@@ -22,7 +22,7 @@
 
 
 class HistoryController < ApplicationController
-
+  before_filter :current_user, :require_user
     
   def view
     @events = @current_user.events.find(:all, :order=>"start_time ASC") 

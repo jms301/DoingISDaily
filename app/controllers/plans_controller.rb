@@ -18,6 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 class PlansController < ApplicationController
+  before_filter :current_user, :require_user
   
   # POST /events
   # POST /events.xml

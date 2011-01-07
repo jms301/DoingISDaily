@@ -29,8 +29,8 @@ class Event < ActiveRecord::Base
     self.end_time != nil ?  self.end_time - self.start_time : 0 
   end
  
-  def self.find_todays_events
-    events = Event.find(:all,
+  def self.find_todays_events user
+    events = user.events.find(:all,
                          :conditions =>['Date(start_time) = Date(?)', Time.now],
                          :order=>'start_time DESC')
 

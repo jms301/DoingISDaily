@@ -51,7 +51,7 @@ class ApplicationController < ActionController::Base
 
           end
         else
-          redirect_to(new_user_session_path())
+          redirect_to(new_user_path())
         end
         return false
       end

@@ -3,7 +3,9 @@ ActionController::Routing::Routes.draw do |map|
 
   map.resources :events, :except=>[:new, :show], :member=>[:finish, :plan_to]
   map.resources :plans, :except=>[:new, :show] 
-  map.connect 'history', :controller=>'history', :action=>'view'
+  map.history 'history', :controller=>'history', :action=>'view', 
+               :conditions => { :method => :get }
+
 
   map.resource  :user_session, :member=>{:reset=>:put, :modal_login=>:post}
   map.resources :users, :except => [:destroy, :index]

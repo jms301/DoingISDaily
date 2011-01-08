@@ -17,6 +17,7 @@
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
+
 class UsersController < ApplicationController
   before_filter :current_user
   before_filter :require_user, :only=>[:show, :edit, :update]
@@ -39,7 +40,7 @@ class UsersController < ApplicationController
     @user = User.new
 
     respond_to do |format|
-      format.html # new.html.erb
+      format.html { render :layout=>false}
       format.xml  { render :xml => @user }
     end
   end
@@ -60,7 +61,7 @@ class UsersController < ApplicationController
         format.html { redirect_to(:root) }
         format.xml  { render :xml => @user, :status => :created, :location => @user }
       else
-        format.html { render :action => "new" }
+        format.html { render :action => "new", :layout=>false }
         format.xml  { render :xml => @user.errors, :status => :unprocessable_entity }
       end
     end

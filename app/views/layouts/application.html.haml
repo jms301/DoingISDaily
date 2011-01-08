@@ -1,0 +1,12 @@
+!!!XML
+!!!
+%html
+  %head
+  %title 
+    =@title.blank? ? 'Doing ISDaily' : 'Doing ISDaily - ' + @title
+  %body
+    %div{:style=>'background:lightblue;width:80%;text-align:right;padding-right:1em;'} 
+      =link_to 'settings', edit_user_path(@current_user)
+      =link_to 'logout', user_session_path(@current_user), :method=>:delete
+    =yield
+

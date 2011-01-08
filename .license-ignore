@@ -10,3 +10,4 @@ spec
 tmp
 vendor
 public
+db

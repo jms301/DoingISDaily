@@ -1,12 +1,12 @@
 <h1>Login</h1>
-<% unless @user_session.login.blank? or @user_session.errors.blank?%>
+<% unless @user_session.username.blank? or @user_session.errors.blank?%>
  Incorrect username or password. <br/>
- <%=link_to 'Request a new password be e-mailed for ' + @user_session.login,
-            reset_user_session_path(:login=>@user_session.login), :method=>:put, :confirm=>"are you sure you want to reset your password?" %>  <br/><br/>
+ <%=link_to 'Request a new password be e-mailed for ' + @user_session.username,
+            reset_user_session_path(:username=>@user_session.username), :method=>:put, :confirm=>"are you sure you want to reset your password?" %>  <br/><br/>
 <%end%>
 <% form_for @user_session, :url => user_session_path do |f| %>
   <%= f.label :user_name %><br />
-  <%= f.text_field :login %><br />
+  <%= f.text_field :username %><br />
   <br />
   <%= f.label :password %><br />
   <%= f.password_field :password %><br />

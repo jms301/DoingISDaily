@@ -5,21 +5,16 @@
 <br />
 <%= form.label :email, 'Email Address (not required - used for configurable alerts)'%><br />
 <%= form.text_field :email %><br />
-<%if @current_user != nil and @user.validated_email %>
+<%if @current_user != nil and @user.validated_email? %>
   <span class='success'>Verified Email!</span>  
 <%elsif @current_user != nil and !@current_user.validate_email_token.blank? and
-                             !@user.validated_email  %>
+                             !@user.validated_email?  %>
   <span class='failure'>Email Unverified.</span>  (We have sent an e-mail to the above address for verification. If you have not received it please check your spam folder or get in touch.)
 <%else%> 
   If you decide to set an email address we will send out a verification e-mail to check that it's an address you own. 
 <%end%>
 <br />
 <br />
-<% if !@current_user.blank? %>
-<%= form.label :default_category_list %> 
-<%=form.collection_select :default_category_list_id, @current_user.category_lists,:id,:name,{:include_blank=>true}, {:style=>'width:100px;'} %><br/>
-<br />
-<%end%>
 <%= form.label :password, form.object.new_record? ? "Password*" : "Change password" %><br />
 <%= form.password_field :password %><br />
 <br />

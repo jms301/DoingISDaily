@@ -79,7 +79,8 @@ class EventsController < ApplicationController
     plan = @current_user.plans.find(params[:id])
     
     @new_event = Event.new({:description=>plan.description, 
-                            :start_time=>Time.now, :user_id=>@current_user.id})
+                            :start_time=>Time.now})
+    @new_event.user = @current_user
     @new_event.save
     redirect_to :root 
   end

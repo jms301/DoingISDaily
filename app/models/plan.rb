@@ -19,6 +19,10 @@
 # THE SOFTWARE.
 class Plan < ActiveRecord::Base
   belongs_to :user
+
+  belongs_to :parent, :class_name=>"Plan", :foreign_key=>'parent_id'
+  has_many   :children, :class_name=>"Plan", :foreign_key=>'parent_id'
+
   validates_presence_of :description
 
   #whitlist for mass asigns excluded: :user_id, parent_id

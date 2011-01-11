@@ -1,0 +1,15 @@
+%h1
+  Plans for #{user.username}
+
+-form_for @new_plan do |f|
+  = render :partial=>'plans/inline_form', :object=>f
+
+%div
+  %div
+    %span.heading
+      Description
+    %span.heading
+      Deadline
+  #top-plans
+    = render :partial=>'plans/plan', :collection=>@plans
+     

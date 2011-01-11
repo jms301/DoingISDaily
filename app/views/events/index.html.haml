@@ -17,34 +17,9 @@
 / LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 / OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 / THE SOFTWARE.
-%h1 
-  Plans for #{@current_user.username}
- 
--form_for @new_plan do |f|
-  = render :partial=>'plans/inline_form', :object=>f
-%br/
-%br/
 
-%table
-  %tr
-    %th
-      Start 
-    %th
-      Description
-    %th
-      Deadline
-    -@plans.each do |plan| 
-      %tr
-        %td
-          = link_to 'Start',  plan_to_event_path(plan), :method=>:post 
-        %td
-          = link_to plan.description,  plan_to_event_path(plan), :method=>:post 
-        %td
-          = plan.deadline.strftime("%b %d") unless plan.deadline.blank?
-        %td
-          = link_to 'X', plan, :confirm => 'You sure?', 
-                  :method => :delete 
-  
+=render :partial=>'plans/index', :locals=>{:user=>@current_user}
+%br
 %h1
   Todays Events (
   = Time.now.to_date

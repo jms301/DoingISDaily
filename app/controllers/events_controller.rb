@@ -60,7 +60,8 @@ class EventsController < ApplicationController
     @title = 'Todays Events ('+ Time.now.to_date.to_s + ')'
     @user = @current_user
     @current_event, @events = Event.find_todays_events @user
-    @plans = @user.plans.find(:all, :order=>"deadline ASC")
+    @plans = @user.plans.find(:all, :order=>"deadline ASC", 
+                              :conditions=>{:parent_id=>nil})
     @new_event = Event.new
     @new_event.start_time = Time.now
     @new_plan = Plan.new

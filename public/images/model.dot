@@ -1,0 +1,9 @@
+digraph models_diagram {
+	graph[overlap=false, splines=true]
+	"User" [shape=Mrecord, label="{User|username :string\lemail :string\lcrypted_password :string\lpassword_salt :string\lpersistence_token :string\lsingle_access_token :string\lperishable_token :string\lcurrent_login_ip :string\lcreated_at :datetime\lupdated_at :datetime\lvalidated_email :boolean\lvalidate_email_token :string\l}"]
+	"Plan" [shape=Mrecord, label="{Plan|description :string\ldeadline :datetime\lnote :text\lcreated_at :datetime\lupdated_at :datetime\l}"]
+	"Event" [shape=Mrecord, label="{Event|description :string\lstart_time :datetime\lend_time :datetime\lawesome :boolean\lcreated_at :datetime\lupdated_at :datetime\l}"]
+	"User" -> "Event" [arrowtail=crow, arrowhead=dot, dir=both]
+	"User" -> "Plan" [arrowtail=crow, arrowhead=dot, dir=both]
+	"Plan" -> "Plan" [label="children", arrowtail=crow, arrowhead=dot, dir=both]
+}

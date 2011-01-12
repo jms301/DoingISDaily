@@ -1,0 +1,9 @@
+%h1 Edit plan
+-form_for @plan do |f|
+  = f.text_field :description
+  = f.date_select :deadline, :include_blank=>true
+
+  = f.collection_select :parent, 
+                        @user.plans.find(:all, :conditions=>{:parent_id=>nil}),
+                        :id, :description, :include_blank=>true
+  = f.submit

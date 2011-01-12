@@ -53,6 +53,7 @@
       %td
         = link_to 'X', @current_event, :confirm => 'Are you sure?', 
                   :method => :delete 
+      
 
   -@events.each do |event| 
     %tr
@@ -68,6 +69,9 @@
             = f.datetime_select :end_time, :discard_year=>true,
               :discard_month=>true, :default=>event.start_time
             = f.submit "update"
+      %td 
+        = link_to 'edit', edit_event_path(event)
+
       %td
         = link_to 'X', event, :confirm => 'Are you sure?', 
                   :method => :delete 

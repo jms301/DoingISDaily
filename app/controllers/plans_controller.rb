@@ -20,15 +20,15 @@
 class PlansController < ApplicationController
   before_filter :current_user, :require_user
   
-  # POST /events
-  # POST /events.xml
+  # POST /plans
+  # POST /plans.xml
   def create
     @user = @current_user
     @title = 'Home ('+ Time.now.to_date.to_s + ')'
     @current_event, @events = Event.find_todays_events(@user)
     @plans = @user.plans
     @new_event = Event.new()
-   
+
 
     unless params[:plan]['deadline(3i)'].blank? and
            params[:plan]['deadline(2i)'].blank? 
@@ -52,6 +52,10 @@ class PlansController < ApplicationController
 
     @new_plan = Plan.new(params[:plan])
     @new_plan.user = @user
+
+    unless params[:plan].blank? or params[:plan][:parent].blank?
+      @new_plan.parent = @current_user.plans.find(params[:plan][:parent])
+    end
 
     respond_to do |format|
       if @new_plan.save
@@ -78,4 +82,31 @@ class PlansController < ApplicationController
       format.xml  { head :ok }
     end
   end
+
+  def edit
+    @user = @current_user
+    @plan = @user.plans.find(params[:id]) 
+  end
+
+  def update
+
+    @plan = @current_user.plans.find(params[:id])
+    unless params[:plan].blank? or params[:plan][:parent].blank?
+      @plan.parent = @current_user.plans.find(params[:plan][:parent])
+    end
+    params.delete('parent')
+    respond_to do |format|
+      if @plan.update_attributes(params[:plan])
+        flash[:notice] = 'Plan was successfully updated.'
+        format.html { redirect_to(:root) }
+        format.xml  { head :ok }
+      else
+        flash[:notice] = 'Plan was not cunning.'
+        format.html { render(:plan => "edit") }
+        format.xml  { render :xml => @plan.errors, :status => :unprocessable_entity }
+      end
+    end
+  end
+
+
 end

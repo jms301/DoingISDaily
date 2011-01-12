@@ -6,5 +6,12 @@
   = link_to 'edit', edit_plan_path(plan)
 %span
   = link_to 'X', plan, :confirm => 'You sure?', :method => :delete
-.sub-plans{:style=>'margin-left:1em;'}
-  = render :partial=>'plans/plan', :collection=>plan.children
+%span{ :id=>"js-hide-#{plan.id}"}
+  %a{:href=>'#', :onClick=>"$('js-hide-#{plan.id}').hide();$('sub-plans-#{plan.id}').hide();$('js-show-#{plan.id}').show()"}
+    \- 
+%span{ :id=>"js-show-#{plan.id}", :style=>"display:none;"}
+  %a{:href=>'#', :onClick=>"$('js-hide-#{plan.id}').show();$('sub-plans-#{plan.id}').show();$('js-show-#{plan.id}').hide();"}
+    + 
+%div
+  .sub-plans{:style=>'margin-left:1em;', :id=>"sub-plans-#{plan.id}"}
+    = render :partial=>'plans/plan', :collection=>plan.children

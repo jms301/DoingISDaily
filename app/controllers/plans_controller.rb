@@ -34,7 +34,7 @@ class PlansController < ApplicationController
            params[:plan]['deadline(2i)'].blank? 
 
       if params[:plan]['deadline(2i)'].blank? 
-        params[:plan]['deadline(2i)'] = Time.now.month 
+        params[:plan]['deadline(2i)'] = Time.now.month.to_s
       end
 
       if params[:plan]['deadline(3i)'].blank? 

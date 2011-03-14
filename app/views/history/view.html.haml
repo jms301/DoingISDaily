@@ -32,8 +32,12 @@
   %br
   -events.reverse!
   -events.each do |event| 
-    - col = "background:red;" if event.end_time == nil 
-    %div{:style=>"#{col}"}
+    -if event.end_time == nil 
+      -col = "red" 
+    -else
+      -col = event.useful? ? "lightgreen" : "pink"
+
+    %div{:style=>"background:#{col};"}
       %b
         =event.description
       =event.start_time.strftime("%H:%M") if event.start_time != nil

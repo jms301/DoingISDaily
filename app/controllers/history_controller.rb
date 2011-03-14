@@ -35,10 +35,10 @@ class HistoryController < ApplicationController
         @days[-1][0] << c_day_time_total if c_day_time_total != nil
         @days << [[event.start_time.to_date], [event]]
         current_day = event.start_time.to_date
-        c_day_time_total = event.length 
+        c_day_time_total =  event.useful? ? event.length : 0 
       else 
         @days[-1][1] << event
-        c_day_time_total += event.length
+        c_day_time_total += event.length if event.useful? 
       end
     end
     if c_day_time_total != nil and !@days.blank?

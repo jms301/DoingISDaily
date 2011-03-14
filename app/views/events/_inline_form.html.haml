@@ -29,6 +29,6 @@ Ended at:
 = hidden_field "event", "end_time(1i)", :value=>Time.now.year
 = hidden_field "event", "end_time(2i)", :value=>Time.now.month
 = hidden_field "event", "end_time(3i)", :value=>Time.now.day
-
-= inline_form.hidden_field :user_id, :value=>'1'
+Useful: 
+= inline_form.check_box :useful
 = inline_form.submit "Create Event"

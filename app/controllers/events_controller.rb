@@ -80,7 +80,7 @@ class EventsController < ApplicationController
     plan = @current_user.plans.find(params[:id])
     
     @new_event = Event.new({:description=>plan.description, 
-                            :start_time=>Time.now})
+                            :start_time=>Time.now, :useful=>true})
     @new_event.user = @current_user
     @new_event.save
     redirect_to :root 
@@ -116,6 +116,10 @@ class EventsController < ApplicationController
     respond_to do |format|
       if @new_event.save
         flash[:notice] = 'Event was successfully created.'
+        if @current_event != nil
+          @current_event.end_time = @new_event.start_time 
+          @current_event.save
+        end
         format.html { redirect_to(events_path()) }
         format.xml  { render :xml => @new_event, :status => :created, 
                              :location => @new_event }

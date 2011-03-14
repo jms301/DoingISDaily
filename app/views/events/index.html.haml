@@ -41,23 +41,26 @@
       Started
     %th
       Finished
-
   -if !@current_event.blank?    
+    - color = @current_event.useful? ? 'lightgreen' : 'pink' 
     %tr
-      %td{:style=>'background:red;'}
+      %td{:style=>"background:#{color}"}
         = @current_event.description
       %td
         = @current_event.start_time.strftime("%H:%M")
       %td
         = button_to "Finish", finish_event_path(@current_event), :method=>:post
+      %td 
+        = link_to 'edit', edit_event_path(@current_event)
       %td
         = link_to 'X', @current_event, :confirm => 'Are you sure?', 
                   :method => :delete 
       
 
   -@events.each do |event| 
+  - color = event.useful? ? 'lightgreen' : 'pink' 
     %tr
-      %td
+      %td{:style=>"background:#{color}"}
         = event.description
       %td
         = event.start_time.strftime("%H:%M") if !event.start_time.blank?

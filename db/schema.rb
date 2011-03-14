@@ -9,16 +9,16 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110108014820) do
+ActiveRecord::Schema.define(:version => 20110314124451) do
 
   create_table "events", :force => true do |t|
-    t.string   "description", :null => false
+    t.string   "description",                    :null => false
     t.datetime "start_time"
     t.datetime "end_time"
-    t.integer  "user_id",     :null => false
-    t.boolean  "awesome"
+    t.integer  "user_id",                        :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "useful",      :default => false, :null => false
   end
 
   create_table "plans", :force => true do |t|

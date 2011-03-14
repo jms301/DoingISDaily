@@ -22,7 +22,7 @@ class Event < ActiveRecord::Base
   validates_presence_of :description, :start_time
 
   #whitlist for mass asigns excluded: :user_id
-  attr_accessible :description, :start_time, :end_time, :awesome
+  attr_accessible :description, :start_time, :end_time, :awesome, :useful
 
  
   def length

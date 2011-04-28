@@ -23,7 +23,6 @@ class Event < ActiveRecord::Base
 
   #whitlist for mass asigns excluded: :user_id
   attr_accessible :description, :start_time, :end_time, :awesome, :useful
-
  
   def length
     self.end_time != nil ?  self.end_time - self.start_time : 0 

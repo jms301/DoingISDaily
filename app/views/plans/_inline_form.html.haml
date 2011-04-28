@@ -24,6 +24,7 @@ Deadline on:
 = inline_form.date_select :deadline, :include_blank=>true,
    :discard_year=>true
 = inline_form.hidden_field :user_id, :value=>'1'
+= inline_form.select :recurs, ['recurs', 'daily', 'weekly', 'monthly'] 
 = inline_form.collection_select :parent,
                         @user.plans.find(:all, :conditions=>{:parent_id=>nil}),
                         :id, :description, :include_blank=>true

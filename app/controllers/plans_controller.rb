@@ -27,7 +27,6 @@ class PlansController < ApplicationController
     @title = 'Home ('+ Time.now.to_date.to_s + ')'
     @current_event, @events = Event.find_todays_events(@user)
     @plans = @user.plans
-    @new_event = Event.new()
 
 
     unless params[:plan]['deadline(3i)'].blank? and
@@ -53,6 +52,18 @@ class PlansController < ApplicationController
     @new_plan = Plan.new(params[:plan])
     @new_plan.user = @user
 
+    unless params[:plan][:recurs] == 'recurs' 
+      if params[:plan][:recurs] == 'daily' 
+        @new_plan.recurs = Plan::RECURS[:daily] 
+      elsif params[:plan][:recurs] == 'weekly' 
+        @new_plan.recurs = Plan::RECURS[:weekly] 
+      elsif params[:plan][:recurs] == 'monthly' 
+        @new_plan.recurs = Plan::RECURS[:monthly] 
+      end
+    else 
+      @new_plan.recurs = Plan::RECURS[:none] 
+    end 
+
     unless params[:plan].blank? or params[:plan][:parent].blank?
       @new_plan.parent = @current_user.plans.find(params[:plan][:parent])
     end
@@ -61,11 +72,11 @@ class PlansController < ApplicationController
       if @new_plan.save
         flash[:notice] = 'Plan was successfully created.'
         format.html { redirect_to(events_path()) }
-        format.xml  { render :xml => @new_event, :status => :created,
-                             :location => @new_event }
+        format.xml  { render :xml => @new_plan, :status => :created,
+                             :location => @new_plan }
       else
         format.html { render :template=>"events/index" }
-        format.xml  { render :xml => @new_event.errors,
+        format.xml  { render :xml => @new_plan.errors,
                              :status => :unprocessable_entity }
       end
     end
@@ -94,6 +105,19 @@ class PlansController < ApplicationController
     unless params[:plan].blank? or params[:plan][:parent].blank?
       @plan.parent = @current_user.plans.find(params[:plan][:parent])
     end
+
+    unless params[:plan][:recurs] == 'recurs' 
+      if params[:plan][:recurs] == 'daily' 
+        @plan.recurs = Plan::RECURS[:daily] 
+      elsif params[:plan][:recurs] == 'weekly' 
+        @plan.recurs = Plan::RECURS[:weekly] 
+      elsif params[:plan][:recurs] == 'monthly' 
+        @plan.recurs = Plan::RECURS[:monthly] 
+      end
+    else 
+      @plan.recurs = Plan::RECURS[:none] 
+    end 
+
     params.delete('parent')
     respond_to do |format|
       if @plan.update_attributes(params[:plan])

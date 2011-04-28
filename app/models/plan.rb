@@ -19,13 +19,22 @@
 # THE SOFTWARE.
 class Plan < ActiveRecord::Base
   belongs_to :user
-
   belongs_to :parent, :class_name=>"Plan", :foreign_key=>'parent_id'
   has_many   :children, :class_name=>"Plan", :foreign_key=>'parent_id'
+  has_many   :events
 
   validates_presence_of :description
 
   #whitlist for mass asigns excluded: :user_id, parent_id
   attr_accessible :description,  :note, :deadline
+
+  RECURS = {:none=>0, :daily => 1, :weekly => 2, :monthly => 3}
+  REV_RECURS = ['none', 'daily', 'weekly', 'monthly' ]
+
+  def recurs 
+    val = self.read_attribute(:recurs)
+    val = 0 if val == nil
+    return Plan::REV_RECURS[val]
+  end
 
 end

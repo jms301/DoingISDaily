@@ -2,6 +2,7 @@
 -form_for @plan do |f|
   = f.text_field :description
   = f.date_select :deadline, :include_blank=>true
+  = f.select :recurs, ['recurs', 'daily', 'weekly', 'monthly']
   - siblings = Array.new
   - siblings = @plan.parent.children if @plan.parent != nil
   - top_level = @user.plans.find(:all, :conditions=>{:parent_id=>nil})

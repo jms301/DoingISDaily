@@ -12,13 +12,14 @@
 ActiveRecord::Schema.define(:version => 20110428163807) do
 
   create_table "events", :force => true do |t|
-    t.string   "description",                    :null => false
+    t.string   "description",                     :null => false
     t.datetime "start_time"
     t.datetime "end_time"
-    t.integer  "user_id",                        :null => false
+    t.integer  "user_id",                         :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "useful",      :default => false, :null => false
+    t.boolean  "useful",       :default => false, :null => false
+    t.datetime "completed_at"
     t.integer  "plan_id"
   end
 
@@ -31,7 +32,6 @@ ActiveRecord::Schema.define(:version => 20110428163807) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "recurs"
-    t.datetime "completed_at"
   end
 
   create_table "users", :force => true do |t|

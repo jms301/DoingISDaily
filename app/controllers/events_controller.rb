@@ -49,9 +49,19 @@ class EventsController < ApplicationController
     @user = @current_user
     @event = @user.events.find(params[:id])
     @event.end_time = (params[:time] || Time.now)
+    @event.completed_at = (params[:time] || Time.now)
     @event.save 
     redirect_to :root
   end 
+
+  # POST
+  def pause 
+    @user = @current_user
+    @event = @user.events.find(params[:id])
+    @event.end_time = (params[:time] || Time.now)
+    @event.save 
+    redirect_to :root
+  end
 
   # GET /events
   # GET /events.xml
@@ -79,8 +89,9 @@ class EventsController < ApplicationController
   def plan_to
     plan = @current_user.plans.find(params[:id])
     
-    @new_event = Event.new({:description=>plan.description, 
+    @new_event = Event.new({ :description=>plan.description, 
                             :start_time=>Time.now, :useful=>true})
+    @new_event.plan = plan
     @new_event.user = @current_user
     @new_event.save
     redirect_to :root 

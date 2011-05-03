@@ -19,6 +19,7 @@
 # THE SOFTWARE.
 class Event < ActiveRecord::Base
   belongs_to :user
+  belongs_to :plan
   validates_presence_of :description, :start_time
 
   #whitlist for mass asigns excluded: :user_id

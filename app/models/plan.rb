@@ -37,4 +37,25 @@ class Plan < ActiveRecord::Base
     return Plan::REV_RECURS[val]
   end
 
+  def completed?
+    if self.read_attribute(:recurs) == Plan::RECURS[:none] or
+       self.read_attribute(:recurs) == nil 
+      events = self.events
+    elsif self.read_attribute(:recurs) == Plan::RECURS[:daily] 
+      start = Time.now.to_date.to_time
+      events = self.events.find(:all, :conditions=>['completed_at > ?', start])
+    elsif self.read_attribute(:recurs) == Plan::RECURS[:weekly] 
+      start = (Time.now - Time.now.wday.days).to_date.to_time
+      events = self.events.find(:all, :conditions=>['completed_at > ?', start])
+    elsif self.read_attribute(:recurs) == Plan::RECURS[:monthly] 
+      start = (Time.now - Time.now.mday.days).to_date.to_time
+      events = self.events.find(:all, :conditions=>['completed_at > ?', start])
+    end
+
+    events.each do |event| 
+      return true if event.completed_at != nil
+    end if events != nil 
+    return false
+  end
+
 end

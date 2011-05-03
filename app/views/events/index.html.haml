@@ -49,6 +49,8 @@
       %td
         = @current_event.start_time.strftime("%H:%M")
       %td
+        = button_to "Pause",  pause_event_path(@current_event), :method=>:post
+      %td
         = button_to "Finish", finish_event_path(@current_event), :method=>:post
       %td 
         = link_to 'edit', edit_event_path(@current_event)

@@ -1,7 +1,8 @@
 ActionController::Routing::Routes.draw do |map|
   map.root :controller=>:events
 
-  map.resources :events, :except=>[:new, :show], :member=>[:finish, :plan_to]
+  map.resources :events, :except=>[:new, :show], 
+                :member=>{:pause=>:post, :finish=>:post, :plan_to=>:post}
   map.resources :plans, :except=>[:new, :show] 
   map.history 'history', :controller=>'history', :action=>'view', 
                :conditions => { :method => :get }

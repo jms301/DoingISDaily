@@ -1,20 +1,21 @@
-%span
-  = link_to plan.description,  plan_to_event_path(plan), :method=>:post
-%span
-  = plan.deadline.strftime("%b %d") unless plan.deadline.blank?
-%span
-  = link_to 'edit', edit_plan_path(plan)
-%span
-  = link_to 'add plan', edit_plan_path(plan)
-%span
-  = link_to 'X', plan, :confirm => 'You sure?', :method => :delete
--if !plan.children.blank?
-  %span{ :id=>"js-hide-#{plan.id}"}
-    %a{:href=>'#', :onClick=>"$('js-hide-#{plan.id}').hide();$('sub-plans-#{plan.id}').hide();$('js-show-#{plan.id}').show()"}
-      \- 
-%span{ :id=>"js-show-#{plan.id}", :style=>"display:none;"}
-  %a{:href=>'#', :onClick=>"$('js-hide-#{plan.id}').show();$('sub-plans-#{plan.id}').show();$('js-show-#{plan.id}').hide();"}
-    + 
-%div
-  .sub-plans{:style=>'margin-left:1em;', :id=>"sub-plans-#{plan.id}"}
-    = render :partial=>'plans/plan', :collection=>plan.children
+-unless plan.completed?  
+  %span
+    = link_to plan.description,  plan_to_event_path(plan), :method=>:post
+  %span
+    = plan.deadline.strftime("%b %d") unless plan.deadline.blank?
+  %span
+    = link_to 'edit', edit_plan_path(plan)
+  %span
+    = link_to 'add plan', edit_plan_path(plan)
+  %span
+    = link_to 'X', plan, :confirm => 'You sure?', :method => :delete
+  -if !plan.children.blank?
+    %span{ :id=>"js-hide-#{plan.id}"}
+      %a{:href=>'#', :onClick=>"$('js-hide-#{plan.id}').hide();$('sub-plans-#{plan.id}').hide();$('js-show-#{plan.id}').show()"}
+        \- 
+  %span{ :id=>"js-show-#{plan.id}", :style=>"display:none;"}
+    %a{:href=>'#', :onClick=>"$('js-hide-#{plan.id}').show();$('sub-plans-#{plan.id}').show();$('js-show-#{plan.id}').hide();"}
+      + 
+  %div
+    .sub-plans{:style=>'margin-left:1em;', :id=>"sub-plans-#{plan.id}"}
+      = render :partial=>'plans/plan', :collection=>plan.children

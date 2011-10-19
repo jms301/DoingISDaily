@@ -48,8 +48,9 @@ class EventsController < ApplicationController
   def finish
     @user = @current_user
     @event = @user.events.find(params[:id])
-    @event.end_time = (params[:time] || Time.now)
-    @event.completed_at = (params[:time] || Time.now)
+    current_min = Time.now - (Time.now.to_i % 60)
+    @event.end_time = (params[:time] || current_min )
+    @event.completed_at = (params[:time] || current_min)
     @event.save 
     redirect_to :root
   end 
@@ -58,7 +59,8 @@ class EventsController < ApplicationController
   def pause 
     @user = @current_user
     @event = @user.events.find(params[:id])
-    @event.end_time = (params[:time] || Time.now)
+    current_min = Time.now - (Time.now.to_i % 60)
+    @event.end_time = (params[:time] || current_min)
     @event.save 
     redirect_to :root
   end

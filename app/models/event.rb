@@ -32,7 +32,7 @@ class Event < ActiveRecord::Base
   def self.find_todays_events user
     events = user.events.find(:all,
                          :conditions =>['Date(start_time) = Date(?)', Time.now],
-                         :order=>'start_time DESC')
+                         :order=>'start_time DESC, end_time DESC')
 
     if !events[0].blank? and events[0].end_time.blank? 
       return events.shift, events

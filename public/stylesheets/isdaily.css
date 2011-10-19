@@ -90,11 +90,9 @@ a {
   a:hover {
     color: black; }
 
-a.selected_cat {
+a.bold {
   color: black;
-  text-decoration: underline;
-  font-weight: bold;
-  font-size: 1.2em; }
+  text-decoration: underline; }
 
 a.unselected_cat {
   color: black;

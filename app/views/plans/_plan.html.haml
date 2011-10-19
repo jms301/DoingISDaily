@@ -4,9 +4,9 @@
   %span
     = plan.deadline.strftime("%b %d") unless plan.deadline.blank?
   %span
-    = link_to 'edit', edit_plan_path(plan)
+    = link_to 'edit', edit_plan_path(plan), :class=>'bold'
   %span
-    = link_to 'add plan', edit_plan_path(plan)
+    = link_to 'add', edit_plan_path(plan), :class=>'bold'
   %span
     = link_to 'X', plan, :confirm => 'You sure?', :method => :delete
   -if !plan.children.blank?

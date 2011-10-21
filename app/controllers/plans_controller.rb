@@ -20,6 +20,12 @@
 class PlansController < ApplicationController
   before_filter :current_user, :require_user
   
+  def new
+    @user = @current_user
+    @parent = Plan.find(params[:parent])
+    @plan = Plan.new(:parent=>params[:parent]) 
+  end 
+  
   # POST /plans
   # POST /plans.xml
   def create

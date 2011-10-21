@@ -1,0 +1,15 @@
+%h1 
+  New Plan
+
+-form_for @plan do |f| 
+  = f.error_messages
+  Description:
+  = f.text_field :description
+  Deadline on:
+  = f.date_select :deadline, :include_blank=>true,
+     :discard_year=>true
+  = f.hidden_field :user_id, :value=>'1'
+  = f.select :recurs, ['recurs', 'daily', 'weekly', 'monthly']
+  Parent: 
+  = @parent.description
+  = f.hidden_field :parent, :value=>@parent.id

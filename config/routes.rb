@@ -3,7 +3,7 @@ ActionController::Routing::Routes.draw do |map|
 
   map.resources :events, :except=>[:new, :show], 
                 :member=>{:pause=>:post, :finish=>:post, :plan_to=>:post}
-  map.resources :plans, :except=>[:new, :show] 
+  map.resources :plans, :except=>[:show] 
   map.history 'history', :controller=>'history', :action=>'view', 
                :conditions => { :method => :get }
 

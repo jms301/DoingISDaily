@@ -6,7 +6,7 @@
   %span
     = link_to 'edit', edit_plan_path(plan), :class=>'bold'
   %span
-    = link_to 'add', edit_plan_path(plan), :class=>'bold'
+    = link_to 'add', new_plan_path(:parent=>plan.id), :class=>'bold'
   %span
     = link_to 'X', plan, :confirm => 'You sure?', :method => :delete
   -if !plan.children.blank?

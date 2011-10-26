@@ -20,7 +20,7 @@
 
 =render :partial=>'plans/index', :locals=>{:user=>@current_user}
 %br
-%h1
+%h1#todays_events
   Todays Events (
   = Time.now.to_date
   )
@@ -82,3 +82,4 @@
                   :method => :delete 
 
 %br
+=javascript_tag "location.hash = '#todays_events';"
